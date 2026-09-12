@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block body %}
+<form method="post" action="/login" id="loginForm">
+<table>
+    <tr>
+        <td colspan="2"><h2>Staff Login</h2></td>
+    </tr>
+    <tr>
+        <td>Username</td>
+        <td><input type="text" name="username" id="username" aria-label="Username"></td>
+    </tr>
+    <tr>
+        <td>Password</td>
+        <td><input type="password" name="password" id="password" aria-label="Password"></td>
+    </tr>
+    <tr>
+        <td colspan="2"><input type="submit" value="Login" name="login" aria-label="Login"></td>
+    </tr>
+</table>
+</form>
+{% endblock %}

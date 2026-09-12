@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block body %}
+<h2>Account Opened Successfully</h2>
+<p>New account number: {{ new_account }}</p>
+<p>Member: {{ member.name }} ({{ member.id }})</p>
+<a href="/logout">Logout</a>
+{% endblock %}

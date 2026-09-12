@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block body %}
+<form method="post" action="/search" id="searchForm">
+<table>
+    <tr>
+        <td colspan="2"><h2>Member Lookup</h2></td>
+    </tr>
+    <tr>
+        <td>Member ID</td>
+        <td><input type="text" name="member_id" id="member_id" aria-label="Member ID"></td>
+    </tr>
+    <tr>
+        <td colspan="2"><input type="submit" value="Search" name="search" aria-label="Search"></td>
+    </tr>
+</table>
+</form>
+{% endblock %}

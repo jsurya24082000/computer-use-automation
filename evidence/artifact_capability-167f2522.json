@@ -1,0 +1,98 @@
+{
+  "id": "capability-167f2522",
+  "name": "Log in with username 'teller' and password 'password123', then look up member 12345 and read their current savings balance",
+  "version": "1.0.0",
+  "goal": "Log in with username 'teller' and password 'password123', then look up member 12345 and read their current savings balance",
+  "entry_url": "http://localhost:5000",
+  "inputs": [
+    {
+      "name": "member_id",
+      "description": "12345",
+      "type": "string",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "savings_balance",
+      "description": "savings-balance",
+      "type": "string"
+    }
+  ],
+  "steps": [
+    {
+      "step_number": 1,
+      "action": "fill",
+      "target": {
+        "name": "username"
+      },
+      "value": "teller",
+      "expected_url": "http://localhost:5000/",
+      "checkpoint": null,
+      "output": null,
+      "notes": "The username field is empty and needs to be filled with 'teller' to proceed with login."
+    },
+    {
+      "step_number": 2,
+      "action": "fill",
+      "target": {
+        "name": "password"
+      },
+      "value": "password123",
+      "expected_url": "http://localhost:5000/",
+      "checkpoint": null,
+      "output": null,
+      "notes": "The password field is empty and needs to be filled to proceed with the login."
+    },
+    {
+      "step_number": 3,
+      "action": "submit",
+      "target": {
+        "name": "login"
+      },
+      "value": null,
+      "expected_url": "http://localhost:5000/",
+      "checkpoint": null,
+      "output": null,
+      "notes": "The username and password fields are correctly filled, so the next step is to submit the login form."
+    },
+    {
+      "step_number": 4,
+      "action": "fill",
+      "target": {
+        "name": "member_id"
+      },
+      "value": "12345",
+      "expected_url": "http://localhost:5000/search",
+      "checkpoint": null,
+      "output": null,
+      "notes": "The goal is to look up member 12345, so we need to fill the member ID field with this value."
+    },
+    {
+      "step_number": 5,
+      "action": "submit",
+      "target": {
+        "name": "search"
+      },
+      "value": null,
+      "expected_url": "http://localhost:5000/search",
+      "checkpoint": null,
+      "output": null,
+      "notes": "The member ID is already filled in, so the next step is to submit the search form to look up the member's information."
+    },
+    {
+      "step_number": 6,
+      "action": "done",
+      "target": {},
+      "value": null,
+      "expected_url": "http://localhost:5000/member/12345",
+      "checkpoint": null,
+      "output": {
+        "savings_balance": "5420.75"
+      },
+      "notes": "The current savings balance for member 12345 is already displayed on the page as $5420.75, which fulfills the goal."
+    }
+  ],
+  "success_condition": "Reached the goal and extracted declared outputs",
+  "created_at": "2026-09-12T18:02:52.908686Z"
+}

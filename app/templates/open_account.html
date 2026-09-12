@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block body %}
+<h2>Open Sub-Account for {{ member.name }}</h2>
+<form method="post" action="/open_account/{{ member.id }}" id="openAccountForm">
+<table>
+    <tr>
+        <td>Account Type</td>
+        <td>
+            <select name="account_type" id="account_type" aria-label="Account Type">
+                <option value="Savings">Savings</option>
+                <option value="Checking">Checking</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Initial Deposit</td>
+        <td><input type="text" name="initial_deposit" id="initial_deposit" aria-label="Initial Deposit"></td>
+    </tr>
+    <tr>
+        <td colspan="2"><input type="submit" value="Open Account" name="open_account" aria-label="Open Account"></td>
+    </tr>
+</table>
+</form>
+{% endblock %}
