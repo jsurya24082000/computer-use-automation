@@ -20,6 +20,9 @@ class ReplayResult:
         self.outputs: Dict[str, Any] = {}
         self.error_step: int = -1
         self.error_message: str = ""
+        self.expected: str = ""
+        self.observed: str = ""
+        self.screenshot_path: str = ""
         self.logs: List[Dict[str, Any]] = []
 
 
@@ -73,8 +76,10 @@ def replay_capability(
             f.write(json.dumps(record) + "\n")
         result.logs.append(record)
 
-    def _screenshot(name: str):
-        return  # screenshots captured by caller if needed
+    def _screenshot(name: str) -> str:
+        path = screenshot_dir / f"{name}.png"
+        page.screenshot(path=str(path))
+        return str(path)
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=headless)
@@ -87,16 +92,21 @@ def replay_capability(
             if not check["allowed"]:
                 result.error_step = step.step_number
                 result.error_message = f"Guardrail blocked: {check['reasons']}"
-                _log({"step": step.step_number, "event": "policy_block", "details": check})
+                result.screenshot_path = _screenshot(f"policy_block_step_{step.step_number}")
+                _log({"step": step.step_number, "event": "policy_block", "details": check, "screenshot": result.screenshot_path})
                 browser.close()
                 return result
 
             if step.action == "done":
                 # Verify checkpoint if present.
-                if step.checkpoint and step.checkpoint not in page.locator("body").inner_text():
+                observed = page.locator("body").inner_text()
+                if step.checkpoint and step.checkpoint not in observed:
                     result.error_step = step.step_number
                     result.error_message = f"Checkpoint not found: {step.checkpoint}"
-                    _log({"step": step.step_number, "event": "checkpoint_failed"})
+                    result.expected = step.checkpoint
+                    result.observed = observed[:500]
+                    result.screenshot_path = _screenshot(f"checkpoint_failed_step_{step.step_number}")
+                    _log({"step": step.step_number, "event": "checkpoint_failed", "expected": step.checkpoint, "observed": result.observed, "screenshot": result.screenshot_path})
                     browser.close()
                     return result
 
@@ -150,11 +160,14 @@ def replay_capability(
             except Exception as e:
                 result.error_step = step.step_number
                 result.error_message = str(e)
-                _log({"step": step.step_number, "event": "error", "message": str(e)})
+                result.screenshot_path = _screenshot(f"error_step_{step.step_number}")
+                result.observed = page.locator("body").inner_text()[:500]
+                _log({"step": step.step_number, "event": "error", "message": str(e), "observed": result.observed, "screenshot": result.screenshot_path})
                 browser.close()
                 return result
 
         result.error_message = "Reached end of artifact without a 'done' step"
-        _log({"event": "error", "message": result.error_message})
+        result.screenshot_path = _screenshot("no_done_step")
+        _log({"event": "error", "message": result.error_message, "screenshot": result.screenshot_path})
         browser.close()
         return result

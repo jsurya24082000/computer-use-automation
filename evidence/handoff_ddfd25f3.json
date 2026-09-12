@@ -1,0 +1,7 @@
+{
+  "run_id": "ddfd25f3",
+  "step": 5,
+  "reason": "The admin settings page returned a 404 error, indicating the URL is incorrect or the page does not exist. Unable to proceed with disabling member 12345.",
+  "timestamp": "2026-09-12T18:17:04.273129Z",
+  "url": "http://localhost:5000/admin/settings"
+}

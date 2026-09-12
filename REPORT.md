@@ -72,4 +72,18 @@ For multi-tenant reuse, an artifact would have a base `tenant_invariant` form pl
 - **No multi-run stability metric** â€” the `Multi-run stability` stretch goal is not implemented.
 - **No real model recovery on replay** â€” a bounded LLM fallback step would be the next defensive feature.
 
-The focus is a working vertical slice: one successful discovery, one successful replay, one business-outcome replay, and clean abstractions for the rest.
+The focus is a working vertical slice: one successful discovery, one successful replay, one business-outcome replay, one hard-failure replay, one guardrail-block replay, one redaction proof, and one escalation handoff, plus clean abstractions for the rest.
+
+
+## 8. Evidence
+
+The evidence/ directory contains:
+- rtifact_capability-167f2522.json — successful balance-lookup artifact.
+- rtifact_capability-6a9f2a5d.json — member-not-found business-outcome artifact.
+- rtifact_capability-hard-failure.json — deliberately broken locator for replay failure testing.
+- rtifact_capability-guardrail-test.json — off-allowlist navigation for guardrail testing.
+- handoff_ddfd25f3.json — agent intervention request (escalation).
+- edaction_proof.json — log showing password value redacted.
+- eplay_log_*.jsonl and discovery_log_*.jsonl — per-run logs.
+- eplay_screenshots_* — failure screenshots for hard failure and guardrail blocks.
+

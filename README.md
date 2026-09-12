@@ -68,6 +68,30 @@ python discover_bad.py
 python replay_not_found.py
 ```
 
+6. Hard-failure evidence (broken locator):
+
+```bash
+python test_hard_failure.py
+```
+
+7. Guardrail evidence (off-allowlist navigation):
+
+```bash
+python test_guardrail.py
+```
+
+8. Redaction proof:
+
+```bash
+python test_redaction.py
+```
+
+9. Escalation run (agent requests human handoff):
+
+```bash
+python discover_escalation.py
+```
+
 Evidence of the runs is saved under `evidence/`.
 
 ## Notes

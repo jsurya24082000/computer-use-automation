@@ -1,0 +1,5 @@
+{"step": 1, "event": "executed", "action": "fill", "timestamp": "2026-09-12T18:09:29.981174Z"}
+{"step": 2, "event": "executed", "action": "fill", "timestamp": "2026-09-12T18:09:30.296969Z"}
+{"step": 3, "event": "executed", "action": "submit", "timestamp": "2026-09-12T18:09:30.964167Z"}
+{"step": 4, "event": "executed", "action": "fill", "timestamp": "2026-09-12T18:09:31.276066Z"}
+{"step": 5, "event": "business_outcome", "message": "Member not found", "timestamp": "2026-09-12T18:09:31.623674Z"}

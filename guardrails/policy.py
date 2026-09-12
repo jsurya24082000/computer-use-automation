@@ -42,13 +42,23 @@ class ActionPolicy:
 
         return result
 
-    def redact(self, obj: Any) -> Any:
+    def _is_sensitive_target(self, target: Any) -> bool:
+        if not isinstance(target, dict):
+            return False
+        name = (target.get("name") or "").lower()
+        type_ = (target.get("type") or "").lower()
+        return name in self.redact_keys or type_ in self.redact_keys
+
+    def redact(self, obj: Any, parent: Optional[Dict[str, Any]] = None) -> Any:
         if isinstance(obj, dict):
-            return {k: "<redacted>" if k in self.redact_keys else self.redact(v) for k, v in obj.items()}
+            # If this object has a sensitive target, redact its value.
+            if self._is_sensitive_target(obj.get("target")) and "value" in obj:
+                obj = {**obj, "value": "<redacted>"}
+            return {k: "<redacted>" if k in self.redact_keys else self.redact(v, parent=obj) for k, v in obj.items()}
         if isinstance(obj, list):
-            return [self.redact(v) for v in obj]
+            return [self.redact(v, parent=parent) for v in obj]
         if isinstance(obj, str):
-            # Mask 9-digit SSN patterns only.
+            # Mask 9-digit SSN patterns.
             return re.sub(r"\b\d{3}-\d{2}-\d{4}\b", "<redacted>", obj)
         return obj
 

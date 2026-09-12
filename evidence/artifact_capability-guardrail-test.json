@@ -1,0 +1,23 @@
+{
+  "id": "capability-guardrail-test",
+  "name": "Guardrail test",
+  "version": "1.0.0",
+  "goal": "Attempt to navigate to an off-allowlist domain",
+  "entry_url": "http://localhost:5000",
+  "inputs": [],
+  "outputs": [],
+  "steps": [
+    {
+      "step_number": 1,
+      "action": "navigate",
+      "target": {},
+      "value": "http://evil.com",
+      "expected_url": "http://evil.com",
+      "checkpoint": null,
+      "output": null,
+      "notes": null
+    }
+  ],
+  "success_condition": "Should be blocked by guardrails",
+  "created_at": "2026-09-12T18:14:44.781910Z"
+}

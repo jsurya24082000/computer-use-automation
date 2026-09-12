@@ -1,0 +1,49 @@
+{
+  "id": "capability-hard-failure",
+  "name": "Hard failure demo",
+  "version": "1.0.0",
+  "goal": "Log in with a broken submit locator",
+  "entry_url": "http://localhost:5000",
+  "inputs": [],
+  "outputs": [],
+  "steps": [
+    {
+      "step_number": 1,
+      "action": "fill",
+      "target": {
+        "name": "username"
+      },
+      "value": "teller",
+      "expected_url": "http://localhost:5000/",
+      "checkpoint": null,
+      "output": null,
+      "notes": null
+    },
+    {
+      "step_number": 2,
+      "action": "fill",
+      "target": {
+        "name": "password"
+      },
+      "value": "password123",
+      "expected_url": "http://localhost:5000/",
+      "checkpoint": null,
+      "output": null,
+      "notes": null
+    },
+    {
+      "step_number": 3,
+      "action": "click",
+      "target": {
+        "name": "does_not_exist"
+      },
+      "value": null,
+      "expected_url": "http://localhost:5000/",
+      "checkpoint": "Staff Login",
+      "output": null,
+      "notes": null
+    }
+  ],
+  "success_condition": "Never expected to succeed",
+  "created_at": "2026-09-12T18:12:43.109071Z"
+}
