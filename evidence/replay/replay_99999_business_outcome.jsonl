@@ -1,0 +1,12 @@
+{"step": 1, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='username']", "matched": true}], "timestamp": "2026-09-12T18:24:18.634257Z"}
+{"step": 2, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='password']", "matched": true}], "timestamp": "2026-09-12T18:24:18.965047Z"}
+{"step": 3, "event": "executed", "action": "submit", "locator_report": [{"strategy": "name", "selector": "[name='login']", "matched": true}], "timestamp": "2026-09-12T18:24:19.639227Z"}
+{"step": 4, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='member_id']", "matched": true}], "timestamp": "2026-09-12T18:24:19.964884Z"}
+{"step": 5, "event": "executed", "action": "submit", "locator_report": [{"strategy": "name", "selector": "[name='search']", "matched": true}], "timestamp": "2026-09-12T18:24:20.311074Z"}
+{"step": 6, "event": "success", "outputs": {}, "timestamp": "2026-09-12T18:24:20.323800Z"}
+{"step": 1, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='username']", "matched": true}], "timestamp": "2026-09-12T18:24:42.646903Z"}
+{"step": 2, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='password']", "matched": true}], "timestamp": "2026-09-12T18:24:42.964037Z"}
+{"step": 3, "event": "executed", "action": "submit", "locator_report": [{"strategy": "name", "selector": "[name='login']", "matched": true}], "timestamp": "2026-09-12T18:24:44.303709Z"}
+{"step": 4, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='member_id']", "matched": true}], "timestamp": "2026-09-12T18:24:44.625536Z"}
+{"step": 5, "event": "executed", "action": "submit", "locator_report": [{"strategy": "name", "selector": "[name='search']", "matched": true}], "timestamp": "2026-09-12T18:24:44.978468Z"}
+{"step": 5, "event": "business_outcome", "known_outcome": "member_not_found", "message": "The provided member ID was not found in the system.", "timestamp": "2026-09-12T18:24:44.987520Z"}

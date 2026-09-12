@@ -1,0 +1,163 @@
+{
+  "id": "lookup-member-balance",
+  "name": "lookup_member_balance",
+  "version": "1.0.0",
+  "goal": "Log in with username '{username}' and password '{password}', then look up member {member_id} and read their current savings balance",
+  "entry_url": "http://localhost:5000",
+  "inputs": [
+    {
+      "name": "username",
+      "description": "runtime input",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "password",
+      "description": "runtime input",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "member_id",
+      "description": "runtime input",
+      "type": "string",
+      "required": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "savings_balance",
+      "description": "current savings balance",
+      "type": "string"
+    }
+  ],
+  "known_outcomes": [
+    {
+      "name": "member_not_found",
+      "detect": {
+        "kind": "body_contains",
+        "value": "Member not found",
+        "tag": null,
+        "type": null
+      },
+      "message": "The provided member ID was not found in the system.",
+      "status": "business_outcome"
+    }
+  ],
+  "steps": [
+    {
+      "step_number": 1,
+      "action": "fill",
+      "target": {
+        "kind": "name",
+        "value": "username",
+        "tag": null,
+        "type": null
+      },
+      "value": "{username}",
+      "expected_url": "http://localhost:5000/",
+      "checkpoint": null,
+      "output": null,
+      "notes": "The username field is empty and needs to be filled with 'teller' to proceed with login.",
+      "risk": null,
+      "risk_reason": null
+    },
+    {
+      "step_number": 2,
+      "action": "fill",
+      "target": {
+        "kind": "name",
+        "value": "password",
+        "tag": null,
+        "type": null
+      },
+      "value": "{password}",
+      "expected_url": "http://localhost:5000/",
+      "checkpoint": null,
+      "output": null,
+      "notes": "The password field is empty and needs to be filled to proceed with the login.",
+      "risk": null,
+      "risk_reason": null
+    },
+    {
+      "step_number": 3,
+      "action": "submit",
+      "target": {
+        "kind": "name",
+        "value": "login",
+        "tag": null,
+        "type": null
+      },
+      "value": "",
+      "expected_url": "http://localhost:5000/",
+      "checkpoint": null,
+      "output": null,
+      "notes": "The username and password fields are already filled correctly, so the next step is to submit the login form to proceed.",
+      "risk": null,
+      "risk_reason": null
+    },
+    {
+      "step_number": 4,
+      "action": "fill",
+      "target": {
+        "kind": "name",
+        "value": "member_id",
+        "tag": null,
+        "type": null
+      },
+      "value": "{member_id}",
+      "expected_url": "http://localhost:5000/search",
+      "checkpoint": null,
+      "output": null,
+      "notes": "I need to enter the member ID to look up the member's information.",
+      "risk": null,
+      "risk_reason": null
+    },
+    {
+      "step_number": 5,
+      "action": "submit",
+      "target": {
+        "kind": "name",
+        "value": "search",
+        "tag": null,
+        "type": null
+      },
+      "value": "",
+      "expected_url": "http://localhost:5000/search",
+      "checkpoint": null,
+      "output": null,
+      "notes": "The member ID is already filled in, so we need to submit the form to search for the member's information.",
+      "risk": null,
+      "risk_reason": null
+    },
+    {
+      "step_number": 6,
+      "action": "done",
+      "target": {
+        "kind": "unknown",
+        "value": "",
+        "tag": null,
+        "type": null
+      },
+      "value": null,
+      "expected_url": "http://localhost:5000/member/12345",
+      "checkpoint": null,
+      "output": {
+        "savings_balance": "5420.75"
+      },
+      "notes": "The current savings balance for member 12345 is already displayed on the page as $5420.75, which fulfills the goal.",
+      "risk": null,
+      "risk_reason": null
+    }
+  ],
+  "success_condition": "Reached the goal and extracted declared outputs",
+  "stability": {
+    "consecutive_successes": 0,
+    "total_replays": 0,
+    "successful_replays": 0,
+    "last_runs": []
+  },
+  "approval_state": "draft",
+  "tenant_overrides": [],
+  "created_at": "2026-09-12T18:31:54.014963Z"
+}

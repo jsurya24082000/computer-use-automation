@@ -1,0 +1,26 @@
+{
+  "status": "failure",
+  "step_id": 3,
+  "expected": "",
+  "observed": "MemberServ Back Office\nStaff Login\n\nUsername\t\nPassword\t\n",
+  "locator_attempts": [
+    {
+      "strategy": "name",
+      "selector": "[name='does_not_exist']",
+      "matched": false
+    },
+    {
+      "strategy": "text",
+      "selector": "text=does_not_exist",
+      "matched": false
+    },
+    {
+      "strategy": "role",
+      "selector": "get_by_role(button, name='does_not_exist')",
+      "matched": false
+    }
+  ],
+  "screenshot_path": "evidence\\replay\\replay_screenshots_37e5b605\\error_step_3.png",
+  "dom_snapshot_path": "evidence\\replay\\replay_dom_37e5b605\\error_step_3.html",
+  "error_message": "No locator matched for target {'kind': 'name', 'value': 'does_not_exist', 'tag': None, 'type': None}; attempts=[{'strategy': 'name', 'selector': \"[name='does_not_exist']\", 'matched': False}, {'strategy': 'text', 'selector': 'text=does_not_exist', 'matched': False}, {'strategy': 'role', 'selector': \"get_by_role(button, name='does_not_exist')\", 'matched': False}]"
+}

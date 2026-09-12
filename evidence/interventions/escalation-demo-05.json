@@ -1,0 +1,12 @@
+{
+  "intervention_id": "escalation-demo-05",
+  "capability_id": "lookup-member-balance",
+  "run_id": "escalation-demo",
+  "step_id": 5,
+  "goal": "Log in with username 'teller' and password 'password123', then navigate to the admin settings page and disable member 12345",
+  "reason": "The admin settings page returned a 404 error, indicating the URL is incorrect or the page does not exist. Unable to proceed with disabling member 12345.",
+  "current_url": "http://localhost:5000/admin/settings",
+  "screenshot_path": "evidence\\discovery_screenshots_escalation-demo\\handoff_step_05.png",
+  "what_to_do": "Please take control of the visible browser, resolve the issue, then create evidence/interventions/resume_{{run_id}}.json with either {\"continue\": true} or {\"done\": true, \"output\": {...}}.",
+  "created_at": "2026-09-12T18:30:54.644859Z"
+}

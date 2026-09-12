@@ -3,44 +3,105 @@ import re
 import uuid
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from playwright.sync_api import sync_playwright
 
-from artifact.models import Capability, Step
+from artifact.models import ApprovalState, Capability, KnownOutcome, Step, TargetRef
 from guardrails.policy import default_policy
 
 EVIDENCE_DIR = Path("evidence")
 
 
+class LocatorAttempt:
+    def __init__(self, strategy: str, selector: str, matched: bool):
+        self.strategy = strategy
+        self.selector = selector
+        self.matched = matched
+
+
 class ReplayResult:
     def __init__(self):
-        self.success = False
-        self.outcome = "unknown"
+        self.status = "unknown"
         self.outputs: Dict[str, Any] = {}
-        self.error_step: int = -1
+        self.step_id: int = -1
         self.error_message: str = ""
         self.expected: str = ""
         self.observed: str = ""
+        self.locator_attempts: List[Dict[str, Any]] = []
         self.screenshot_path: str = ""
+        self.dom_snapshot_path: str = ""
         self.logs: List[Dict[str, Any]] = []
 
 
-def _locator(page, target: Dict[str, Any]):
-    name = target.get("name")
-    text = target.get("text")
-    tag = target.get("tag")
-    type_ = target.get("type")
+def _resolve_target(step: Step, capability: Capability, tenant_id: Optional[str]) -> TargetRef:
+    override = capability.get_tenant_override(tenant_id or "", step.step_number)
+    return override.target if override else step.target
 
-    if name:
-        return page.locator(f"[name='{name}']")
-    if text:
-        if tag == "a":
-            return page.get_by_role("link", name=text)
-        if tag == "input" and type_ == "submit":
-            return page.locator(f"input[type='submit'][value='{text}']")
-        return page.get_by_role("button", name=text)
-    raise ValueError(f"Cannot locate target: {target}")
+
+def _substitute_value(value: Optional[str], parameter_values: Dict[str, str]) -> Optional[str]:
+    if not value:
+        return value
+    for k, v in parameter_values.items():
+        value = value.replace(f"{{{k}}}", v)
+    return value
+
+
+def _locate_with_attempts(page, target: TargetRef, attempts: List[Dict[str, Any]]):
+    """Try multiple locator strategies, logging each. Returns a Playwright Locator."""
+
+    # Strategy 1: name attribute
+    if target.kind == "name" and target.value:
+        selector = f"[name='{target.value}']"
+        loc = page.locator(selector)
+        matched = loc.count() > 0
+        attempts.append({"strategy": "name", "selector": selector, "matched": matched})
+        if matched:
+            return loc
+
+    # Strategy 2: exact visible text on button/link
+    if target.value:
+        selector = f"text={target.value}"
+        loc = page.locator(selector)
+        matched = loc.count() > 0
+        attempts.append({"strategy": "text", "selector": selector, "matched": matched})
+        if matched:
+            return loc
+
+    # Strategy 3: role+name (button / link)
+    if target.value:
+        if target.tag == "a":
+            selector = f"get_by_role(link, name='{target.value}')"
+            loc = page.get_by_role("link", name=target.value)
+        else:
+            selector = f"get_by_role(button, name='{target.value}')"
+            loc = page.get_by_role("button", name=target.value)
+        matched = loc.count() > 0
+        attempts.append({"strategy": "role", "selector": selector, "matched": matched})
+        if matched:
+            return loc
+
+    # Strategy 4: input submit by value
+    if target.type == "submit" and target.value:
+        selector = f"input[type='submit'][value='{target.value}']"
+        loc = page.locator(selector)
+        matched = loc.count() > 0
+        attempts.append({"strategy": "submit_value", "selector": selector, "matched": matched})
+        if matched:
+            return loc
+
+    # Final fallback: raise with all attempts
+    raise RuntimeError(f"No locator matched for target {target.model_dump()}; attempts={attempts}")
+
+
+def _check_known_outcomes(body: str, url: str, known_outcomes: List[KnownOutcome]) -> Optional[KnownOutcome]:
+    for ko in known_outcomes:
+        d = ko.detect
+        if d.kind == "body_contains" and d.value in body:
+            return ko
+        if d.kind == "url_contains" and d.value in url:
+            return ko
+    return None
 
 
 def _extract_outputs(page, output_names: List[str]) -> Dict[str, str]:
@@ -62,11 +123,16 @@ def replay_capability(
     capability: Capability,
     parameter_values: Dict[str, str],
     headless: bool = True,
+    tenant_id: Optional[str] = None,
+    save_to: Optional[Path] = None,
 ) -> ReplayResult:
     run_id = uuid.uuid4().hex[:8]
-    log_path = EVIDENCE_DIR / f"replay_log_{run_id}.jsonl"
-    screenshot_dir = EVIDENCE_DIR / f"replay_screenshots_{run_id}"
-    screenshot_dir.mkdir(exist_ok=True)
+    log_path = save_to or (EVIDENCE_DIR / f"replay/replay_log_{run_id}.jsonl")
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    screenshot_dir = EVIDENCE_DIR / f"replay/replay_screenshots_{run_id}"
+    screenshot_dir.mkdir(parents=True, exist_ok=True)
+    dom_dir = EVIDENCE_DIR / f"replay/replay_dom_{run_id}"
+    dom_dir.mkdir(parents=True, exist_ok=True)
     policy = default_policy()
     result = ReplayResult()
 
@@ -81,93 +147,128 @@ def replay_capability(
         page.screenshot(path=str(path))
         return str(path)
 
+    def _dom_snapshot(name: str) -> str:
+        path = dom_dir / f"{name}.html"
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(page.content())
+        return str(path)
+
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=headless)
         page = browser.new_page()
         page.goto(capability.entry_url)
 
         for step in capability.steps:
-            # Halt if policy says the action is risky and not confirmed.
-            check = policy.check_action(step.action, step.target, step.value)
+            result.step_id = step.step_number
+            target = _resolve_target(step, capability, tenant_id)
+            value = _substitute_value(step.value, parameter_values)
+
+            # Guardrails before every action.
+            check = policy.check_action(step.action, target.model_dump(), value)
             if not check["allowed"]:
-                result.error_step = step.step_number
+                result.status = "failure"
                 result.error_message = f"Guardrail blocked: {check['reasons']}"
                 result.screenshot_path = _screenshot(f"policy_block_step_{step.step_number}")
-                _log({"step": step.step_number, "event": "policy_block", "details": check, "screenshot": result.screenshot_path})
+                _log({
+                    "step": step.step_number,
+                    "event": "policy_block",
+                    "details": check,
+                    "screenshot": result.screenshot_path,
+                })
+                browser.close()
+                return result
+
+            # Risk/irreversible gating: approval required for risky actions on a draft artifact.
+            if step.risk in ("irreversible", "risky") and capability.approval_state != ApprovalState.APPROVED:
+                result.status = "escalation"
+                result.error_message = f"Step {step.step_number} is {step.risk} but artifact is {capability.approval_state}"
+                _log({"step": step.step_number, "event": "approval_gate", "risk": step.risk, "approval_state": capability.approval_state})
                 browser.close()
                 return result
 
             if step.action == "done":
-                # Verify checkpoint if present.
                 observed = page.locator("body").inner_text()
                 if step.checkpoint and step.checkpoint not in observed:
-                    result.error_step = step.step_number
+                    result.status = "failure"
                     result.error_message = f"Checkpoint not found: {step.checkpoint}"
                     result.expected = step.checkpoint
                     result.observed = observed[:500]
                     result.screenshot_path = _screenshot(f"checkpoint_failed_step_{step.step_number}")
-                    _log({"step": step.step_number, "event": "checkpoint_failed", "expected": step.checkpoint, "observed": result.observed, "screenshot": result.screenshot_path})
+                    result.dom_snapshot_path = _dom_snapshot(f"checkpoint_failed_step_{step.step_number}")
+                    _log({
+                        "step": step.step_number,
+                        "event": "checkpoint_failed",
+                        "expected": step.checkpoint,
+                        "observed": result.observed,
+                        "screenshot": result.screenshot_path,
+                        "dom": result.dom_snapshot_path,
+                    })
                     browser.close()
                     return result
 
-                result.success = True
-                if step.output and step.output.get("outcome"):
-                    result.outcome = step.output.get("outcome")
-                    result.outputs = step.output
-                else:
-                    result.outcome = "success"
-                    result.outputs = _extract_outputs(page, [o.name for o in capability.outputs])
-                _log({"step": step.step_number, "event": result.outcome, "outputs": result.outputs})
+                result.status = "success"
+                result.outputs = _extract_outputs(page, [o.name for o in capability.outputs])
+                _log({"step": step.step_number, "event": "success", "outputs": result.outputs})
                 browser.close()
                 return result
 
             if step.action == "escalate":
-                result.outcome = "escalation"
+                result.status = "escalation"
                 result.error_message = "Replay encountered an escalation step"
                 _log({"step": step.step_number, "event": "escalation"})
                 browser.close()
                 return result
 
             try:
+                result.locator_attempts = []
                 if step.action == "navigate":
-                    page.goto(step.value)
+                    page.goto(value)
                 elif step.action == "wait":
-                    page.wait_for_timeout(int(step.value) if step.value else 1000)
+                    page.wait_for_timeout(int(value) if value else 1000)
                 elif step.action in ("click", "submit"):
-                    _locator(page, step.target).click()
+                    locator = _locate_with_attempts(page, target, result.locator_attempts)
+                    locator.click()
                 elif step.action == "fill":
-                    # Substitute parameter placeholders.
-                    value = step.value
-                    if value:
-                        for k, v in parameter_values.items():
-                            value = value.replace(f"{{{k}}}", v)
-                    _locator(page, step.target).fill(value)
+                    locator = _locate_with_attempts(page, target, result.locator_attempts)
+                    locator.fill(value)
 
                 page.wait_for_timeout(300)
+                _log({"step": step.step_number, "event": "executed", "action": step.action, "locator_report": result.locator_attempts})
 
-                # Business-outcome checks: "Member not found" is a legitimate result.
+                # Known outcomes are checked after every executed step, before any checkpoint.
                 body = page.locator("body").inner_text()
-                if "Member not found" in body:
-                    result.success = True
-                    result.outcome = "business_outcome"
-                    result.error_message = "Member not found"
-                    _log({"step": step.step_number, "event": "business_outcome", "message": "Member not found"})
+                url = page.url
+                ko = _check_known_outcomes(body, url, capability.known_outcomes)
+                if ko:
+                    result.status = "business_outcome"
+                    result.outputs = {"known_outcome": ko.name, "message": ko.message}
+                    result.step_id = step.step_number
+                    _log({"step": step.step_number, "event": "business_outcome", "known_outcome": ko.name, "message": ko.message})
                     browser.close()
                     return result
 
-                _log({"step": step.step_number, "event": "executed", "action": step.action})
-
             except Exception as e:
-                result.error_step = step.step_number
+                result.status = "failure"
                 result.error_message = str(e)
                 result.screenshot_path = _screenshot(f"error_step_{step.step_number}")
+                result.dom_snapshot_path = _dom_snapshot(f"error_step_{step.step_number}")
                 result.observed = page.locator("body").inner_text()[:500]
-                _log({"step": step.step_number, "event": "error", "message": str(e), "observed": result.observed, "screenshot": result.screenshot_path})
+                _log({
+                    "step": step.step_number,
+                    "event": "error",
+                    "message": str(e),
+                    "locator_report": result.locator_attempts,
+                    "observed": result.observed,
+                    "screenshot": result.screenshot_path,
+                    "dom": result.dom_snapshot_path,
+                })
                 browser.close()
                 return result
 
         result.error_message = "Reached end of artifact without a 'done' step"
+        result.status = "failure"
         result.screenshot_path = _screenshot("no_done_step")
-        _log({"event": "error", "message": result.error_message, "screenshot": result.screenshot_path})
+        result.dom_snapshot_path = _dom_snapshot("no_done_step")
+        _log({"event": "error", "message": result.error_message, "screenshot": result.screenshot_path, "dom": result.dom_snapshot_path})
         browser.close()
         return result

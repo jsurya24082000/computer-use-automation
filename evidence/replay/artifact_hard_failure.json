@@ -1,0 +1,73 @@
+{
+  "id": "lookup-member-balance",
+  "name": "lookup_member_balance",
+  "version": "1.0.0",
+  "goal": "Hard-failure replay with a broken submit locator",
+  "entry_url": "http://localhost:5000",
+  "inputs": [],
+  "outputs": [],
+  "known_outcomes": [],
+  "steps": [
+    {
+      "step_number": 1,
+      "action": "fill",
+      "target": {
+        "kind": "name",
+        "value": "username",
+        "tag": null,
+        "type": null
+      },
+      "value": "teller",
+      "expected_url": "http://localhost:5000/",
+      "checkpoint": null,
+      "output": null,
+      "notes": null,
+      "risk": null,
+      "risk_reason": null
+    },
+    {
+      "step_number": 2,
+      "action": "fill",
+      "target": {
+        "kind": "name",
+        "value": "password",
+        "tag": null,
+        "type": null
+      },
+      "value": "password123",
+      "expected_url": "http://localhost:5000/",
+      "checkpoint": null,
+      "output": null,
+      "notes": null,
+      "risk": null,
+      "risk_reason": null
+    },
+    {
+      "step_number": 3,
+      "action": "click",
+      "target": {
+        "kind": "name",
+        "value": "does_not_exist",
+        "tag": null,
+        "type": null
+      },
+      "value": null,
+      "expected_url": "http://localhost:5000/",
+      "checkpoint": "Staff Login",
+      "output": null,
+      "notes": null,
+      "risk": null,
+      "risk_reason": null
+    }
+  ],
+  "success_condition": "Never expected to succeed",
+  "stability": {
+    "consecutive_successes": 0,
+    "total_replays": 0,
+    "successful_replays": 0,
+    "last_runs": []
+  },
+  "approval_state": "draft",
+  "tenant_overrides": [],
+  "created_at": "2026-09-12T18:32:33.055138Z"
+}
