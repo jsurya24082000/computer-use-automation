@@ -1,0 +1,93 @@
+{
+  "artifact_id": "lookup-member-balance",
+  "approval_state": "approved",
+  "stability": {
+    "consecutive_successes": 5,
+    "total_replays": 5,
+    "successful_replays": 5,
+    "last_runs": [
+      {
+        "run": 1,
+        "status": "success",
+        "outputs": {
+          "savings_balance": "5420.75"
+        },
+        "duration_ms": 4767.84
+      },
+      {
+        "run": 2,
+        "status": "success",
+        "outputs": {
+          "savings_balance": "5420.75"
+        },
+        "duration_ms": 3577.85
+      },
+      {
+        "run": 3,
+        "status": "success",
+        "outputs": {
+          "savings_balance": "5420.75"
+        },
+        "duration_ms": 3541.13
+      },
+      {
+        "run": 4,
+        "status": "success",
+        "outputs": {
+          "savings_balance": "5420.75"
+        },
+        "duration_ms": 3606.81
+      },
+      {
+        "run": 5,
+        "status": "success",
+        "outputs": {
+          "savings_balance": "5420.75"
+        },
+        "duration_ms": 3674.8
+      }
+    ]
+  },
+  "runs": [
+    {
+      "run": 1,
+      "status": "success",
+      "outputs": {
+        "savings_balance": "5420.75"
+      },
+      "duration_ms": 4767.84
+    },
+    {
+      "run": 2,
+      "status": "success",
+      "outputs": {
+        "savings_balance": "5420.75"
+      },
+      "duration_ms": 3577.85
+    },
+    {
+      "run": 3,
+      "status": "success",
+      "outputs": {
+        "savings_balance": "5420.75"
+      },
+      "duration_ms": 3541.13
+    },
+    {
+      "run": 4,
+      "status": "success",
+      "outputs": {
+        "savings_balance": "5420.75"
+      },
+      "duration_ms": 3606.81
+    },
+    {
+      "run": 5,
+      "status": "success",
+      "outputs": {
+        "savings_balance": "5420.75"
+      },
+      "duration_ms": 3674.8
+    }
+  ]
+}

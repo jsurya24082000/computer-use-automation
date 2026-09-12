@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block body %}
+<table>
+    <tr>
+        <td>
+            <table>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td colspan="2"><b>Member Lookup</b></td>
+                            </tr>
+                            <form method="post" action="/search">
+                            <tr>
+                                <td>Account Number</td>
+                                <td><input type="text" name="f4" value="" autocomplete="off"></td>
+                            </tr>
+                            <tr>
+                                <td class="action" onclick="document.forms[0].submit()">Submit</td>
+                                <td class="action" onclick="document.forms[0].submit()">Submit</td>
+                            </tr>
+                            </form>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+{% endblock %}

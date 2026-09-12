@@ -1,0 +1,10 @@
+{
+  "off_allowlist_navigation": {
+    "status": "failure",
+    "error": "Guardrail blocked: [\"Navigation to 'http://evil.com' is outside the allowed domain list.\"]"
+  },
+  "off_allowlist_action": {
+    "status": "failure",
+    "error": "Guardrail blocked: [\"Action 'delete_file' is not in the allowlist.\"]"
+  }
+}

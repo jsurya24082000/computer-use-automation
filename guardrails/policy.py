@@ -59,7 +59,10 @@ class ActionPolicy:
             return [self.redact(v, parent=parent) for v in obj]
         if isinstance(obj, str):
             # Mask 9-digit SSN patterns.
-            return re.sub(r"\b\d{3}-\d{2}-\d{4}\b", "<redacted>", obj)
+            masked = re.sub(r"\b\d{3}-\d{2}-\d{4}\b", "<redacted>", obj)
+            # Mask account numbers like 100-12345-0, keeping only the last digit.
+            masked = re.sub(r"\b\d{3}-\d{5}-(\d)\b", r"***-*****-\1", masked)
+            return masked
         return obj
 
 

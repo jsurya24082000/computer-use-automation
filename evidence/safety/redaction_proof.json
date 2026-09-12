@@ -1,0 +1,13 @@
+{
+  "type": "llm_action",
+  "data": {
+    "action": "fill",
+    "target": {
+      "name": "password",
+      "type": "password"
+    },
+    "value": "<redacted>",
+    "reason": "Filling the password field."
+  },
+  "body": "Account ***-*****-0 has balance $5420.75. SSN <redacted> on file."
+}

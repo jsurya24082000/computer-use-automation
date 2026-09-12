@@ -3,7 +3,7 @@
   "name": "lookup-member-balance",
   "version": "1.0.0",
   "goal": "Log in with username '{username}' and password '{password}', then look up member {member_id} and read their current savings balance",
-  "entry_url": "http://localhost:5000",
+  "entry_url": "http://localhost:5001",
   "inputs": [
     {
       "name": "username",
@@ -152,53 +152,24 @@
   ],
   "success_condition": "Reached the goal and extracted declared outputs",
   "stability": {
-    "consecutive_successes": 5,
-    "total_replays": 5,
-    "successful_replays": 5,
-    "last_runs": [
-      {
-        "run": 1,
-        "status": "success",
-        "outputs": {
-          "savings_balance": "5420.75"
-        },
-        "duration_ms": 4767.84
-      },
-      {
-        "run": 2,
-        "status": "success",
-        "outputs": {
-          "savings_balance": "5420.75"
-        },
-        "duration_ms": 3577.85
-      },
-      {
-        "run": 3,
-        "status": "success",
-        "outputs": {
-          "savings_balance": "5420.75"
-        },
-        "duration_ms": 3541.13
-      },
-      {
-        "run": 4,
-        "status": "success",
-        "outputs": {
-          "savings_balance": "5420.75"
-        },
-        "duration_ms": 3606.81
-      },
-      {
-        "run": 5,
-        "status": "success",
-        "outputs": {
-          "savings_balance": "5420.75"
-        },
-        "duration_ms": 3674.8
-      }
-    ]
+    "consecutive_successes": 0,
+    "total_replays": 0,
+    "successful_replays": 0,
+    "last_runs": []
   },
-  "approval_state": "approved",
-  "tenant_overrides": [],
+  "approval_state": "draft",
+  "tenant_overrides": [
+    {
+      "tenant_id": "tenant-b",
+      "step_number": 4,
+      "target": {
+        "kind": "name",
+        "value": "f4",
+        "tag": null,
+        "type": null
+      },
+      "notes": "Tenant B renamed the field and the name attribute from f3 to f4"
+    }
+  ],
   "created_at": "2026-09-12T18:45:35.913520Z"
 }

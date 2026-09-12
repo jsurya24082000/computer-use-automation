@@ -1,0 +1,1 @@
+{"step": 1, "event": "policy_block", "details": {"allowed": false, "risky": false, "reasons": ["Action 'delete_file' is not in the allowlist."]}, "screenshot": "evidence\\replay\\replay_screenshots_8b92849c\\policy_block_step_1.png", "timestamp": "2026-09-12T20:42:21.755519Z"}

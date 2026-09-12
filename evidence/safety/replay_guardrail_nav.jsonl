@@ -1,0 +1,1 @@
+{"step": 1, "event": "policy_block", "details": {"allowed": false, "risky": false, "reasons": ["Navigation to 'http://evil.com' is outside the allowed domain list."]}, "screenshot": "evidence\\replay\\replay_screenshots_2107bad4\\policy_block_step_1.png", "timestamp": "2026-09-12T20:42:20.551092Z"}

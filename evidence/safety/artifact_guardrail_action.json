@@ -1,0 +1,39 @@
+{
+  "id": "guardrail-action",
+  "name": "guardrail_action",
+  "version": "1.0.0",
+  "goal": "Attempt an action type not in the allowlist",
+  "entry_url": "http://localhost:5000",
+  "inputs": [],
+  "outputs": [],
+  "known_outcomes": [],
+  "steps": [
+    {
+      "step_number": 1,
+      "action": "delete_file",
+      "target": {
+        "kind": "unknown",
+        "value": "",
+        "tag": null,
+        "type": null
+      },
+      "value": "C:\\Windows\\system.ini",
+      "expected_url": null,
+      "checkpoint": null,
+      "output": null,
+      "notes": null,
+      "risk": null,
+      "risk_reason": null
+    }
+  ],
+  "success_condition": "Should be blocked by guardrails",
+  "stability": {
+    "consecutive_successes": 0,
+    "total_replays": 0,
+    "successful_replays": 0,
+    "last_runs": []
+  },
+  "approval_state": "draft",
+  "tenant_overrides": [],
+  "created_at": "2026-09-12T20:42:20.739928Z"
+}

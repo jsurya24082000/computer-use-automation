@@ -1,24 +1,6 @@
 # Computer-Use Automation System
 
-This is a small end-to-end take-home project for interface.ai: an LLM-driven browser agent that discovers how to complete a task in a legacy-style back-office web app, records the result as a typed artifact (a reusable capability), and can replay that artifact deterministically with safety guardrails and a human-escalation path.
-
-## What it does
-
-1. **Discovery** — an LLM agent observes the UI, chooses actions, and records a successful flow as a `Capability` artifact.
-2. **Replay** — the same artifact is re-run without the model, using stable locators and checkpoints.
-3. **Guardrails** — an allowlist, redaction, and policy checks on every action.
-4. **Human handoff** — the agent can pause and request operator intervention.
-5. **Evidence** — logs and screenshots are written to `evidence/`.
-
-## Architecture
-
-- `app/` — a local Flask credit-union sandbox with a multi-step member lookup / account-opening flow.
-- `agent/` — LLM client, page-control extraction, and discovery runner.
-- `artifact/` — Pydantic models for the typed capability artifact and storage utilities.
-- `replay/` — deterministic replay engine with business-outcome and failure handling.
-- `guardrails/` — action allowlist, domain allowlist, PII redaction, and irreversible-action checks.
-- `human_operator/` — file-based pause / resume / handoff helpers.
-- `evidence/` — generated artifacts, logs, and screenshots from runs.
+A focused end-to-end take-home for interface.ai: one `lookup_member_balance` capability, a hostile legacy-style back-office sandbox, deterministic replay, safety guardrails, human handoff, and multi-tenant reuse.
 
 ## Setup
 
@@ -27,76 +9,86 @@ python -m venv .venv
 . .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 python -m playwright install chromium
-```
-
-Set the OpenAI key:
-
-```bash
 export OPENAI_API_KEY="..."
 ```
 
-## Run the demo
+## Run the sandbox
 
-1. Start the sandbox application:
+Base tenant:
 
 ```bash
 cd app
 python app.py
 ```
 
-2. In another shell, run a discovery for a successful balance lookup:
+Tenant B (for multi-tenant demo):
+
+```bash
+cd app
+python tenant_b.py
+```
+
+## Discovery
 
 ```bash
 python discover_member.py
 ```
 
-3. Replay the resulting artifact:
+## Replays
+
+Happy path:
 
 ```bash
 python replay_member.py
 ```
 
-4. Discover a known business outcome (member not found):
-
-```bash
-python discover_bad.py
-```
-
-5. Replay the not-found artifact:
+Member not found (business outcome):
 
 ```bash
 python replay_not_found.py
 ```
 
-6. Hard-failure evidence (broken locator):
+Failure with debug report:
 
 ```bash
 python test_hard_failure.py
 ```
 
-7. Guardrail evidence (off-allowlist navigation):
-
-```bash
-python test_guardrail.py
-```
-
-8. Redaction proof:
-
-```bash
-python test_redaction.py
-```
-
-9. Escalation run (agent requests human handoff):
+## Escalation
 
 ```bash
 python discover_escalation.py
+# then create evidence/interventions/resume_escalation-demo.json to simulate human completion
 ```
 
-Evidence of the runs is saved under `evidence/`.
+## Multi-tenant
 
-## Notes
+```bash
+python test_multi_tenant.py
+```
 
-- The target app intentionally uses table-based HTML with no test IDs.
-- The artifact schema decouples the recorded flow from the raw LLM transcript.
-- "Member not found" is treated as a business outcome, not a crash.
-- This is a focused vertical slice; see `REPORT.md` for design trade-offs and cut lines.
+## Safety
+
+```bash
+python test_safety.py
+python test_redaction.py
+```
+
+## Stability
+
+```bash
+python test_stability.py
+```
+
+## Evidence
+
+All run outputs are in `evidence/`.
+
+- `evidence/artifact_lookup-member-balance.json` — the single capability.
+- `evidence/replay/` — replay logs, failure reports, screenshots, DOM snapshots.
+- `evidence/interventions/` — human handoff requests.
+- `evidence/multi-tenant/` — Tenant B before/after override logs.
+- `evidence/safety/` — guardrail and redaction proof.
+- `evidence/stability/` — 5-run report.
+
+See `REPORT.md` for the design write-up.

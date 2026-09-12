@@ -1,0 +1,6 @@
+{"step": 1, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='f1']", "matched": true}], "timestamp": "2026-09-12T18:50:39.950386Z"}
+{"step": 2, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='f2']", "matched": true}], "timestamp": "2026-09-12T18:50:40.268628Z"}
+{"step": 3, "event": "executed", "action": "submit", "locator_report": [{"strategy": "text", "selector": "text=Submit", "matched": true}], "timestamp": "2026-09-12T18:50:40.927067Z"}
+{"step": 4, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='f4']", "matched": true}], "timestamp": "2026-09-12T18:50:41.247598Z"}
+{"step": 5, "event": "executed", "action": "submit", "locator_report": [{"strategy": "text", "selector": "text=Submit", "matched": true}], "timestamp": "2026-09-12T18:50:41.921131Z"}
+{"step": 6, "event": "success", "outputs": {"savings_balance": "5420.75"}, "timestamp": "2026-09-12T18:50:41.935400Z"}
