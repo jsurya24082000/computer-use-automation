@@ -1,0 +1,4 @@
+{"from_state":"AUTOMATION","to_state":"AUTOMATION","timestamp":"2026-09-12T18:41:12.278957Z","reason":"initial"}
+{"from_state":"AUTOMATION","to_state":"PENDING_HUMAN","timestamp":"2026-09-12T18:42:14.142533Z","reason":"intervention 047d68b5-25"}
+{"from_state":"PENDING_HUMAN","to_state":"HUMAN","timestamp":"2026-09-12T18:42:14.144335Z","reason":"awaiting human"}
+{"from_state":"HUMAN","to_state":"AUTOMATION","timestamp":"2026-09-12T18:44:14.246408Z","reason":"resume timeout"}

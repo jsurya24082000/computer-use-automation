@@ -8,3 +8,18 @@
 {"step": 4, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='member_id']", "matched": true}], "timestamp": "2026-09-12T18:24:12.940467Z"}
 {"step": 5, "event": "executed", "action": "submit", "locator_report": [{"strategy": "name", "selector": "[name='search']", "matched": true}], "timestamp": "2026-09-12T18:24:13.586045Z"}
 {"step": 6, "event": "success", "outputs": {"savings_balance": "5420.75"}, "timestamp": "2026-09-12T18:24:13.597855Z"}
+{"step": 1, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='username']", "matched": true}], "timestamp": "2026-09-12T18:35:10.139026Z"}
+{"step": 2, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='password']", "matched": true}], "timestamp": "2026-09-12T18:35:10.463623Z"}
+{"step": 3, "event": "executed", "action": "submit", "locator_report": [{"strategy": "name", "selector": "[name='login']", "matched": true}], "timestamp": "2026-09-12T18:35:11.126708Z"}
+{"step": 4, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='member_id']", "matched": true}], "timestamp": "2026-09-12T18:35:11.448307Z"}
+{"step": 5, "event": "executed", "action": "submit", "locator_report": [{"strategy": "name", "selector": "[name='search']", "matched": true}], "timestamp": "2026-09-12T18:35:12.115138Z"}
+{"step": 6, "event": "success", "outputs": {"savings_balance": "5420.75"}, "timestamp": "2026-09-12T18:35:12.129426Z"}
+{"step": 1, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='f1']", "matched": true}], "timestamp": "2026-09-12T18:45:57.982104Z"}
+{"step": 2, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='f2']", "matched": true}], "timestamp": "2026-09-12T18:45:58.303105Z"}
+{"step": 3, "event": "error", "message": "Locator.click: Error: strict mode violation: locator(\"text=Submit\") resolved to 2 elements:\n    1) <td class=\"action\" onclick=\"document.forms[0].submit()\">Submit</td> aka get_by_role(\"cell\", name=\"Submit\").nth(2)\n    2) <td class=\"action\" onclick=\"document.forms[0].submit()\">Submit</td> aka get_by_role(\"cell\", name=\"Submit\").nth(3)\n\nCall log:\n  - waiting for locator(\"text=Submit\")\n", "locator_report": [{"strategy": "text", "selector": "text=Submit", "matched": true}], "observed": "MemberServ Back Office\nStaff Login\nUsername\t\nPassword\t\nSubmit\tSubmit", "screenshot": "evidence\\replay\\replay_screenshots_4a9dd811\\error_step_3.png", "dom": "evidence\\replay\\replay_dom_4a9dd811\\error_step_3.html", "timestamp": "2026-09-12T18:45:59.018632Z"}
+{"step": 1, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='f1']", "matched": true}], "timestamp": "2026-09-12T18:46:44.376328Z"}
+{"step": 2, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='f2']", "matched": true}], "timestamp": "2026-09-12T18:46:44.693238Z"}
+{"step": 3, "event": "executed", "action": "submit", "locator_report": [{"strategy": "text", "selector": "text=Submit", "matched": true}], "timestamp": "2026-09-12T18:46:46.080707Z"}
+{"step": 4, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='f3']", "matched": true}], "timestamp": "2026-09-12T18:46:46.401271Z"}
+{"step": 5, "event": "executed", "action": "submit", "locator_report": [{"strategy": "text", "selector": "text=Submit", "matched": true}], "timestamp": "2026-09-12T18:46:47.045268Z"}
+{"step": 6, "event": "success", "outputs": {"savings_balance": "5420.75"}, "timestamp": "2026-09-12T18:46:47.058450Z"}

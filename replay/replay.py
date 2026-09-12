@@ -59,20 +59,23 @@ def _locate_with_attempts(page, target: TargetRef, attempts: List[Dict[str, Any]
         if matched:
             return loc
 
-    # Strategy 2: exact visible text on button/link
+    # Strategy 2: exact visible text (button, link, td, etc.)
     if target.value:
         selector = f"text={target.value}"
         loc = page.locator(selector)
         matched = loc.count() > 0
         attempts.append({"strategy": "text", "selector": selector, "matched": matched})
         if matched:
-            return loc
+            return loc.first
 
     # Strategy 3: role+name (button / link)
     if target.value:
         if target.tag == "a":
             selector = f"get_by_role(link, name='{target.value}')"
             loc = page.get_by_role("link", name=target.value)
+        elif target.tag == "td":
+            selector = f"td:has-text('{target.value}')"
+            loc = page.locator(selector)
         else:
             selector = f"get_by_role(button, name='{target.value}')"
             loc = page.get_by_role("button", name=target.value)

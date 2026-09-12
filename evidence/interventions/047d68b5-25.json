@@ -1,0 +1,12 @@
+{
+  "intervention_id": "047d68b5-25",
+  "capability_id": "lookup-member-balance",
+  "run_id": "047d68b5",
+  "step_id": 25,
+  "goal": "Log in with username 'teller' and password 'password123', then look up member 12345 and read their current savings balance",
+  "reason": "Reached max steps without reaching the goal",
+  "current_url": "http://localhost:5000/",
+  "screenshot_path": "evidence\\discovery_screenshots_047d68b5\\handoff_step_25.png",
+  "what_to_do": "Please take control of the visible browser, resolve the issue, then create evidence/interventions/resume_{{run_id}}.json with either {\"continue\": true} or {\"done\": true, \"output\": {...}}.",
+  "created_at": "2026-09-12T18:42:14.142509Z"
+}

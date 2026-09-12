@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 import re
 
 app = Flask(__name__)
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.secret_key = "dev-secret-do-not-use-in-production"
 
 # Mock tenant / institution data.  No real credentials or PII.
@@ -42,8 +43,8 @@ def login():
 
 @app.route("/login", methods=["POST"])
 def do_login():
-    username = request.form.get("username", "").strip()
-    password = request.form.get("password", "").strip()
+    username = request.form.get("f1", "").strip()
+    password = request.form.get("f2", "").strip()
     if VALID_CREDENTIALS.get(username) == password:
         session["logged_in"] = True
         session["username"] = username
@@ -55,7 +56,7 @@ def do_login():
 @app.route("/search", methods=["GET", "POST"])
 def search():
     if request.method == "POST":
-        member_id = request.form.get("member_id", "").strip()
+        member_id = request.form.get("f3", "").strip()
         if member_id in MEMBERS:
             return redirect(url_for("member_detail", member_id=member_id))
         flash("Member not found")

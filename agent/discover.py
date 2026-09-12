@@ -68,6 +68,10 @@ class DiscoveryAgent:
         if target.kind == "name" and target.value:
             return page.locator(f"[name='{target.value}']")
         if target.kind == "text" and target.value:
+            # Try a surface-agnostic text match first, then role.
+            text_loc = page.locator(f"text={target.value}")
+            if text_loc.count() > 0:
+                return text_loc.first
             if target.tag == "a":
                 return page.get_by_role("link", name=target.value)
             if target.tag == "input" and target.type == "submit":

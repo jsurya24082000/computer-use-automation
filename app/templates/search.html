@@ -1,17 +1,30 @@
 {% extends "base.html" %}
 {% block body %}
-<form method="post" action="/search" id="searchForm">
 <table>
     <tr>
-        <td colspan="2"><h2>Member Lookup</h2></td>
-    </tr>
-    <tr>
-        <td>Member ID</td>
-        <td><input type="text" name="member_id" id="member_id" aria-label="Member ID"></td>
-    </tr>
-    <tr>
-        <td colspan="2"><input type="submit" value="Search" name="search" aria-label="Search"></td>
+        <td>
+            <table>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td colspan="2"><b>Member Lookup</b></td>
+                            </tr>
+                            <form method="post" action="/search">
+                            <tr>
+                                <td>Member ID</td>
+                                <td><input type="text" name="f3" value="" autocomplete="off"></td>
+                            </tr>
+                            <tr>
+                                <td class="action" onclick="document.forms[0].submit()">Submit</td>
+                                <td class="action" onclick="document.forms[0].submit()">Submit</td>
+                            </tr>
+                            </form>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
     </tr>
 </table>
-</form>
 {% endblock %}

@@ -1,6 +1,6 @@
 {
   "id": "lookup-member-balance",
-  "name": "lookup_member_balance",
+  "name": "lookup-member-balance",
   "version": "1.0.0",
   "goal": "Log in with username '{username}' and password '{password}', then look up member {member_id} and read their current savings balance",
   "entry_url": "http://localhost:5000",
@@ -50,7 +50,7 @@
       "action": "fill",
       "target": {
         "kind": "name",
-        "value": "username",
+        "value": "f1",
         "tag": null,
         "type": null
       },
@@ -58,7 +58,7 @@
       "expected_url": "http://localhost:5000/",
       "checkpoint": null,
       "output": null,
-      "notes": "The username field is empty and needs to be filled with 'teller' to proceed with login.",
+      "notes": "The username field is empty and needs to be filled with 'teller' to proceed with the login.",
       "risk": null,
       "risk_reason": null
     },
@@ -67,7 +67,7 @@
       "action": "fill",
       "target": {
         "kind": "name",
-        "value": "password",
+        "value": "f2",
         "tag": null,
         "type": null
       },
@@ -83,16 +83,16 @@
       "step_number": 3,
       "action": "submit",
       "target": {
-        "kind": "name",
-        "value": "login",
+        "kind": "text",
+        "value": "Submit",
         "tag": null,
         "type": null
       },
-      "value": "",
+      "value": null,
       "expected_url": "http://localhost:5000/",
       "checkpoint": null,
       "output": null,
-      "notes": "The username and password fields are already filled correctly, so the next step is to submit the login form to proceed.",
+      "notes": "The login form is filled with the correct username and password, so the next step is to submit the form to proceed with the login process.",
       "risk": null,
       "risk_reason": null
     },
@@ -101,7 +101,7 @@
       "action": "fill",
       "target": {
         "kind": "name",
-        "value": "member_id",
+        "value": "f3",
         "tag": null,
         "type": null
       },
@@ -109,7 +109,7 @@
       "expected_url": "http://localhost:5000/search",
       "checkpoint": null,
       "output": null,
-      "notes": "I need to enter the member ID to look up the member's information.",
+      "notes": "The goal requires looking up member 12345, so I need to fill in the member ID field with this value.",
       "risk": null,
       "risk_reason": null
     },
@@ -117,16 +117,16 @@
       "step_number": 5,
       "action": "submit",
       "target": {
-        "kind": "name",
-        "value": "search",
+        "kind": "text",
+        "value": "Submit",
         "tag": null,
         "type": null
       },
-      "value": "",
+      "value": null,
       "expected_url": "http://localhost:5000/search",
       "checkpoint": null,
       "output": null,
-      "notes": "The member ID is already filled in, so we need to submit the form to search for the member's information.",
+      "notes": "The Member ID field is already filled with the correct value, so submitting the form will initiate the member lookup.",
       "risk": null,
       "risk_reason": null
     },
@@ -145,7 +145,7 @@
       "output": {
         "savings_balance": "5420.75"
       },
-      "notes": "The current savings balance for member 12345 is already displayed on the page as $5420.75, which fulfills the goal.",
+      "notes": "The current page already displays the current savings balance for member 12345, which is $5420.75.",
       "risk": null,
       "risk_reason": null
     }
@@ -159,5 +159,5 @@
   },
   "approval_state": "draft",
   "tenant_overrides": [],
-  "created_at": "2026-09-12T18:31:54.014963Z"
+  "created_at": "2026-09-12T18:45:35.913520Z"
 }

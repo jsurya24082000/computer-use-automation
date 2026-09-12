@@ -10,3 +10,15 @@
 {"step": 4, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='member_id']", "matched": true}], "timestamp": "2026-09-12T18:24:44.625536Z"}
 {"step": 5, "event": "executed", "action": "submit", "locator_report": [{"strategy": "name", "selector": "[name='search']", "matched": true}], "timestamp": "2026-09-12T18:24:44.978468Z"}
 {"step": 5, "event": "business_outcome", "known_outcome": "member_not_found", "message": "The provided member ID was not found in the system.", "timestamp": "2026-09-12T18:24:44.987520Z"}
+{"step": 1, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='username']", "matched": true}], "timestamp": "2026-09-12T18:36:12.931269Z"}
+{"step": 2, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='password']", "matched": true}], "timestamp": "2026-09-12T18:36:13.247052Z"}
+{"step": 3, "event": "executed", "action": "submit", "locator_report": [{"strategy": "name", "selector": "[name='login']", "matched": true}], "timestamp": "2026-09-12T18:36:14.588290Z"}
+{"step": 4, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='member_id']", "matched": true}], "timestamp": "2026-09-12T18:36:14.915634Z"}
+{"step": 5, "event": "executed", "action": "submit", "locator_report": [{"strategy": "name", "selector": "[name='search']", "matched": true}], "timestamp": "2026-09-12T18:36:15.265637Z"}
+{"step": 5, "event": "business_outcome", "known_outcome": "member_not_found", "message": "The provided member ID was not found in the system.", "timestamp": "2026-09-12T18:36:15.274794Z"}
+{"step": 1, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='f1']", "matched": true}], "timestamp": "2026-09-12T18:46:57.086415Z"}
+{"step": 2, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='f2']", "matched": true}], "timestamp": "2026-09-12T18:46:57.407372Z"}
+{"step": 3, "event": "executed", "action": "submit", "locator_report": [{"strategy": "text", "selector": "text=Submit", "matched": true}], "timestamp": "2026-09-12T18:46:58.076075Z"}
+{"step": 4, "event": "executed", "action": "fill", "locator_report": [{"strategy": "name", "selector": "[name='f3']", "matched": true}], "timestamp": "2026-09-12T18:46:58.394548Z"}
+{"step": 5, "event": "executed", "action": "submit", "locator_report": [{"strategy": "text", "selector": "text=Submit", "matched": true}], "timestamp": "2026-09-12T18:46:58.740567Z"}
+{"step": 5, "event": "business_outcome", "known_outcome": "member_not_found", "message": "The provided member ID was not found in the system.", "timestamp": "2026-09-12T18:46:58.750079Z"}

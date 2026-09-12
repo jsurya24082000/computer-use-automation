@@ -3,21 +3,31 @@
 <h2>Member Detail: {{ member.name }} ({{ member.id }})</h2>
 <table>
     <tr>
-        <th>Account Type</th>
-        <th>Account Number</th>
-        <th>Balance</th>
+        <td>
+            <table>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <th>Account Type</th>
+                                <th>Account Number</th>
+                                <th>Balance</th>
+                            </tr>
+                            {% for acct in member.accounts %}
+                            <tr>
+                                <td>{{ acct.type }}</td>
+                                <td>{{ acct.number }}</td>
+                                <td>${{ "%.2f"|format(acct.balance) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
     </tr>
-    {% for acct in member.accounts %}
-    <tr>
-        <td>{{ acct.type }}</td>
-        <td>{{ acct.number }}</td>
-        <td>${{ "%.2f"|format(acct.balance) }}</td>
-    </tr>
-    {% endfor %}
 </table>
 <p>Current savings balance: ${{ "%.2f"|format(member.accounts[0].balance) }}</p>
-<form method="get" action="/open_account/{{ member.id }}" id="openForm">
-    <input type="submit" value="Open New Sub-Account">
-</form>
+<a href="javascript:void(0)" onclick="window.location.href='/open_account/{{ member.id }}'">Open New Sub-Account</a>
 <a href="/logout">Logout</a>
 {% endblock %}

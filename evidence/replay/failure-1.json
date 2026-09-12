@@ -1,0 +1,21 @@
+{
+  "status": "failure",
+  "step_id": 1,
+  "expected": "",
+  "observed": "MemberServ Back Office\nStaff Login\nUsername\t\nPassword\t\nSubmit\tSubmit",
+  "locator_attempts": [
+    {
+      "strategy": "name",
+      "selector": "[name='username']",
+      "matched": false
+    },
+    {
+      "strategy": "text",
+      "selector": "text=username",
+      "matched": true
+    }
+  ],
+  "screenshot_path": "evidence\\replay\\replay_screenshots_9bf9f28f\\error_step_1.png",
+  "dom_snapshot_path": "evidence\\replay\\replay_dom_9bf9f28f\\error_step_1.html",
+  "error_message": "Locator.fill: Error: Element is not an <input>, <textarea>, <select> or [contenteditable] and does not have a role allowing [aria-readonly]\nCall log:\n  - waiting for locator(\"text=username\").first\n    - locator resolved to <td>Username</td>\n    - fill(\"teller\")\n  - attempting fill action\n    - waiting for element to be visible, enabled and editable\n"
+}
